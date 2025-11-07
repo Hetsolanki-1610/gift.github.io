@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Het's Cake Bakery — Premium Cakes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(180deg,#ffffff,#f5f6f8);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    .glass { backdrop-filter: blur(6px) saturate(120%); background: rgba(255,255,255,0.55); }
+    .dark-glass { backdrop-filter: blur(6px) saturate(120%); background: rgba(10,10,10,0.6); }
+    .img-cover { object-fit: cover; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(15,15,15,0.08); }
+    .btn-gray { background:#6b7280; color:white; }
+    .btn-gray:hover { background:#4b5563; }
+    @media only screen and (max-width:395px){
+      .image img{ height: 20vh; }
+    }
+  </style>
+</head>
+<body class="antialiased text-gray-800">
+
+  <!-- Products Grid -->
+  <main id="products" class="max-w-6xl mx-auto px-4 pb-20">
+    <h3 class="text-2xl font-bold mb-6 text-center text-gray-700">GIFT HAMPER</h3>
+    <div id="productGrid" class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"></div>
+  </main>
+
+  <!-- Product Overlay -->
+  <div id="productOverlay" class="fixed inset-0 hidden z-40">
+    <div class="absolute inset-0 dark-glass flex items-center justify-center p-3">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/2 p-4 bg-white flex flex-col items-center">
+  <img id="overlayImg" src="" alt=""
+       class="w-full max-h-[600px] rounded-xl object-contain shadow-lg transition-all duration-300">
+  <div id="thumbs" class="mt-3  flex gap-3 ">
+    <!-- thumbnails auto yaha add honge -->
+  </div>
+</div>
+
+
+          <div class="md:w-1/2 p-5 flex flex-col">
+            <div class="flex justify-between items-start">
+              <div>
+                <h2 id="overlayTitle" class="text-2xl font-bold"></h2>
+                <p id="overlaySubtitle" class="text-sm text-gray-500 mt-1"></p>
+              </div>
+              <button id="closeOverlay" class="text-gray-400 hover:text-gray-700 text-3xl leading-none">&times;</button>
+            </div>
+
+            <div class="mt-4 flex items-center gap-4">
+              <div class="text-3xl font-extrabold text-gray-800" id="overlayPrice"></div>
+              <div class="text-sm text-gray-500 line-through" id="overlayMRP"></div>
+            </div>
+
+            <div class="mt-4 text-gray-700 text-sm leading-relaxed" id="overlayDesc"></div>
+
+            <div class="mt-6 flex gap-3">
+              <button id="buyNowBtn" class="px-5 py-3 rounded-lg shadow btn-gray hover:scale-105 transform transition">
+                Buy Now
+              </button>
+              <button id="addToCart" class="border border-gray-200 px-4 py-3 rounded-lg text-sm">Add to Cart</button>
+            </div>
+
+            <div class="mt-6 flex-1"></div>
+            <div class="pt-4 border-t px-1">
+              <p class="text-sm text-gray-500">Fast delivery • Freshly baked • Custom messages available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 glass flex items-center justify-center p-6">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-bold">Place Your Order</h3>
+          <button id="closeOrder" class="text-gray-400 hover:text-gray-700">&times;</button>
+        </div>
+
+        <form id="orderForm" class="mt-4 space-y-4">
+          <input type="hidden" id="orderProductId" />
+          <div>
+            <label class="text-sm text-gray-600">Name</label>
+            <input required id="custName" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
+              placeholder="Your name" />
+          </div>
+          <div>
+            <button type="submit" class="w-full py-3 rounded-lg btn-gray hover:opacity-95 transition font-medium">
+              Send via WhatsApp
+            </button>
+          </div>
+        </form>
+
+        <!-- QR Section -->
+        <div id="qrArea" class="mt-6 hidden text-center">
+          <h4 class="font-semibold mb-2">Scan or Tap to Pay</h4>
+          <a id="upiLink" href="#" target="_blank" class="inline-block">
+            <img id="qrImage" src="" alt="UPI QR" class="mx-auto w-40 h-40 bg-white rounded-md shadow cursor-pointer" />
+          </a>
+          <div class="text-sm text-gray-600 mt-2">Amount: <span id="qrAmount"></span></div>
+          <div class="text-sm text-gray-600">UPI ID: <span id="qrUpi"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-12 bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-sm text-gray-500">© Het's Cake Bakery • Fresh baked happiness</p>
+      <div class="flex gap-3">
+        <a class="text-sm text-gray-600">Instagram</a>
+        <a class="text-sm text-gray-600">Facebook</a>
+        <a class="text-sm text-gray-600">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const WHATSAPP_NUMBER = "917698960192";
+    const MERCHANT_UPI_ID = "yourupi@bank"; // Replace with your UPI ID
+
+    const products = [
+  {
+    id: "Customisation available",
+    title: "Customisation available",
+    subtitle: "Rich red velvet with cream cheese frosting",
+    price: 899,
+    mrp: 999,
+    images: [
+      "images/p1.jpg",
+      "images/p2.jpg",
+      "images/p3.jpg"
+    ],
+    desc: "Perfect for birthdays and parties. Layers of soft sponge and smooth cream cheese frosting."
+  },
+  {
+    id: "cake-choco",
+    title: "Customisation available",
+    subtitle: "Decadent chocolate lovers' dream",
+    price: 749,
+    mrp: 849,
+    images: [
+      "images/a1.jpg",
+      "images/a2.jpg",
+      "images/a3.jpg",
+      "images/a4.jpg"
+    ],
+    desc: "Layered chocolate sponge, dark ganache, and fresh truffle pieces."
+  },
+  {
+    id: "cake-fruit",
+    title: "Customisation available",
+    subtitle: "Light, fresh and topped with seasonal fruits",
+    price: 699,
+    mrp: 799,
+    images: [
+      "images/cake3.jpg",
+      "images/cake3b.jpg"
+    ],
+    desc: "Fresh cream layered with seasonal fruits — a classic choice for celebrations."
+  },
+  {
+    id: "cake-sugarfree",
+    title: "Customisation available",
+    subtitle: "Sugar Free Chocolate flavour",
+    price: 799,
+    mrp: 899,
+    images: [
+      "images/cake4.jpg",
+      "images/cake4b.jpg"
+    ],
+    desc: "Low sugar option, equally delicious for celebrations."
+  },
+  {
+    id: "cake-blackforest",
+    title: "Customisation available",
+    subtitle: "Black Forest flavour with Oreo twist",
+    price: 1309,
+    mrp: 1749,
+    images: [
+      "images/cake5.jpg",
+      "images/cake5b.jpg"
+    ],
+    desc: "Rich chocolate layers with cream and Oreo crunch."
+  },
+  {
+    id: "cake-fudge",
+    title: "",
+    subtitle: "Ultra-rich chocolate fudge experience",
+    price: 1309,
+    mrp: 1749,
+    images: [
+      "images/cake6.jpg",
+      "images/cake6b.jpg"
+    ],
+    desc: "Decadent fudge layers — perfect for big celebrations."
+  }
+];
+
+
+    const productGrid = document.getElementById('productGrid');
+    const overlay = document.getElementById('productOverlay');
+    const orderModal = document.getElementById('orderModal');
+    let currentProduct = null;
+
+    function renderProducts() {
+      productGrid.innerHTML = '';
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl shadow-md overflow-hidden card-hover transition flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="relative h-50 image">
+              <img src="${p.images[0]}" alt="${p.title}" class="w-full h-44 img-cover">
+            </div>
+            <div class="p-3 flex flex-col h-48">
+              <div>
+                <h4 class="font-semibold text-gray-800">${p.title}</h4>
+                <p class="text-sm text-gray-500 mt-1">${p.subtitle}</p>
+              </div>
+              <div class="mt-3 flex items-center justify-between">
+                <div>
+                  <div class="text-lg font-bold text-gray-800">₹${p.price}</div>
+                  <div class="text-xs text-gray-400 line-through">₹${p.mrp}</div>
+                </div>
+                <div class="flex gap-2">
+                  <button class="buyBtn px-3 py-2 rounded-md text-sm btn-gray" data-id="${p.id}">Buy</button>
+                  <button class="viewBtn border border-gray-200 px-3 py-2 rounded-md text-sm" data-id="${p.id}">View</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        productGrid.appendChild(card);
+      });
+
+      document.querySelectorAll('.viewBtn').forEach(b =>
+        b.addEventListener('click', (e) => openProduct(e.currentTarget.dataset.id)));
+      document.querySelectorAll('.buyBtn').forEach(b =>
+        b.addEventListener('click', (e) => { openProduct(e.currentTarget.dataset.id); setTimeout(() => document.getElementById('buyNowBtn').click(), 200); }));
+    }
+
+    function openProduct(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      currentProduct = p;
+      document.getElementById('overlayImg').src = p.images[0];
+      document.getElementById('overlayTitle').innerText = p.title;
+      document.getElementById('overlaySubtitle').innerText = p.subtitle;
+      document.getElementById('overlayPrice').innerText = "₹" + p.price;
+      document.getElementById('overlayMRP').innerText = "₹" + p.mrp;
+      document.getElementById('overlayDesc').innerText = p.desc;
+
+      const thumbs = document.getElementById('thumbs');
+      thumbs.innerHTML = '';
+      p.images.forEach(src => {
+        const t = document.createElement('img');
+        t.src = src;
+        t.className = 'w-20 h-14 rounded-md object-cover cursor-pointer shadow';
+        t.addEventListener('click', () => document.getElementById('overlayImg').src = src);
+        thumbs.appendChild(t);
+      });
+
+      document.getElementById('buyNowBtn').dataset.id = p.id;
+      overlay.classList.remove('hidden');
+    }
+
+    document.getElementById('closeOverlay').addEventListener('click', () => overlay.classList.add('hidden'));
+
+    document.getElementById('buyNowBtn').addEventListener('click', (e) => {
+      const id = e.currentTarget.dataset.id;
+      currentProduct = products.find(x => x.id === id);
+      document.getElementById('custName').value = '';
+      document.getElementById('qrArea').classList.add('hidden');
+      orderModal.classList.remove('hidden');
+    });
+
+    document.getElementById('closeOrder').addEventListener('click', () => orderModal.classList.add('hidden'));
+
+    document.getElementById('orderForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('custName').value.trim();
+      if(!name) return alert('Please enter your name');
+
+      const p = currentProduct;
+      const total = p.price;
+      const waText = `🍰 New Order\nProduct: ${p.title}\nTotal: ₹${total}\nName: ${name}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`, "_blank");
+
+      setTimeout(() => {
+        const upiPayload = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=${encodeURIComponent("Het's Cake Bakery")}&am=${encodeURIComponent(total)}&cu=INR&tn=${encodeURIComponent(p.title)}`;
+        const qrSrc = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(upiPayload)}`;
+        document.getElementById('qrImage').src = qrSrc;
+        document.getElementById('qrAmount').innerText = "₹" + total;
+        document.getElementById('qrUpi').innerText = MERCHANT_UPI_ID;
+        document.getElementById('upiLink').href = upiPayload;
+        document.getElementById('qrArea').classList.remove('hidden');
+      }, 1000);
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>
