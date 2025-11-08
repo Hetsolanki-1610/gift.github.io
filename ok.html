@@ -19,6 +19,9 @@
     @media only screen and (max-width:395px){
       .image img{ height: 20vh; }
     }
+    .h {
+    height: 16rem;
+}
   </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -68,7 +71,7 @@
 
             <div class="mt-6 flex-1"></div>
             <div class="pt-4 border-t px-1">
-              <p class="text-sm text-gray-500">Fast delivery • Freshly baked • Custom messages available</p>
+              <p class="text-sm text-gray-500">Fast delivery • Custom messages available</p>
             </div>
           </div>
         </div>
@@ -139,7 +142,7 @@
       "images/p2.jpg",
       "images/p3.jpg"
     ],
-    desc: "Perfect for birthdays and parties. Layers of soft sponge and smooth cream cheese frosting."
+    desc: ""
   },
   {
     id: "cake-choco",
@@ -153,43 +156,53 @@
       "images/a3.jpg",
       "images/a4.jpg"
     ],
-    desc: "Layered chocolate sponge, dark ganache, and fresh truffle pieces."
+    desc: ""
   },
   {
-    id: "cake-fruit",
-    title: "Customisation available",
-    subtitle: "Light, fresh and topped with seasonal fruits",
+    id: "Birthday Gift hamper",
+    title: "Birthday special gift hamper",
+    subtitle: "Customisation available",
     price: 699,
     mrp: 799,
     images: [
-      "images/cake3.jpg",
-      "images/cake3b.jpg"
+      "images/b1.jpg",
+      "images/b2.jpg",
+      "images/b3.jpg",
+      "images/b4.jpg",
+      "images/b5.jpg"
     ],
-    desc: "Fresh cream layered with seasonal fruits — a classic choice for celebrations."
+    desc: ""
   },
   {
-    id: "cake-sugarfree",
-    title: "Customisation available",
-    subtitle: "Sugar Free Chocolate flavour",
+    id: "Valentine's special gift hamper",
+    title: "Valentine's special gift hamper",
+    subtitle: "Customisation available",
     price: 799,
     mrp: 899,
     images: [
-      "images/cake4.jpg",
-      "images/cake4b.jpg"
+      "images/c1.jpg",
+      "images/c2.jpg",
+      "images/c3.jpg",
+      "images/c4.jpg",
+      "images/c5.jpg",
+      "images/c6.jpg",
+      "images/c7.jpg",
+      "images/c8.jpg",
+      "images/c9.jpg",
     ],
-    desc: "Low sugar option, equally delicious for celebrations."
+    desc: ""
   },
   {
     id: "cake-blackforest",
-    title: "Customisation available",
-    subtitle: "Black Forest flavour with Oreo twist",
-    price: 1309,
-    mrp: 1749,
+    title: "Gift hamper for her ",
+    subtitle: "Customisation available",
+    price: 139,
+    mrp: 49,
     images: [
       "images/cake5.jpg",
       "images/cake5b.jpg"
     ],
-    desc: "Rich chocolate layers with cream and Oreo crunch."
+    desc: ""
   },
   {
     id: "cake-fudge",
@@ -201,7 +214,7 @@
       "images/cake6.jpg",
       "images/cake6b.jpg"
     ],
-    desc: "Decadent fudge layers — perfect for big celebrations."
+    desc: ""
   }
 ];
 
@@ -219,7 +232,7 @@
         card.innerHTML = `
           <div>
             <div class="relative h-50 image">
-              <img src="${p.images[0]}" alt="${p.title}" class="w-full h-44 img-cover">
+              <img src="${p.images[0]}" alt="${p.title}" class="w-full h img-cover">
             </div>
             <div class="p-3 flex flex-col h-48">
               <div>
@@ -291,7 +304,7 @@
 
       const p = currentProduct;
       const total = p.price;
-      const waText = `🍰 New Order\nProduct: ${p.title}\nTotal: ₹${total}\nName: ${name}`;
+      const waText = ` New Order\nProduct: ${p.title}\nTotal: ₹${total}\nName: ${name}`;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`, "_blank");
 
       setTimeout(() => {
